@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Customers</h1>
+		<table>
+		<tr>
+			<td>id</td>
+			<td>name</td>
+			<td>email</td>
+		</tr>
+    {% for customer in customers %}
+		<tr>
+			<td>{{ customer.id }}</td>
+			<td>{{ customer.fname }} {{ customer.lname }}</td>
+			<td>{{ customer.email }}</td>
+		</tr>
+    {% endfor %}
+	</table>
+{% endblock %}
