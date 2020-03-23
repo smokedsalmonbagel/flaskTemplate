@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>New customer</h1>
+		<form action="newcustomer/" method="POST">
+			First Name:<br>
+			<input type="text" name="fname" /><br><br>
+			
+			Last Name:<br>
+			<input type="text" name="lname" /><br><br>
+			
+			Email:<br>
+			<input type="text" name="email" /><br><br>
+			
+			Password:<br>
+			<input type="password" name="password" /><br><br>
+			
+			Retype Password:<br>
+			<input type="password" name="password2" /><br><br>
+			
+			Subscribed<br>
+			<select name="subscribed">
+				<option value="True" >Yes</option>
+				<option value="False" >No</option>
+			</select>
+			
+			<br>
+			
+			<input type="submit" value="Save customer"/>
+			
+		</form>
+{% endblock %}

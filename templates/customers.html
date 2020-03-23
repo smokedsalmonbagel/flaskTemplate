@@ -10,7 +10,7 @@
 		</tr>
     {% for customer in customers %}
 		<tr>
-			<td>{{ customer.id }}</td>
+			<td><a href="customer?id={{ customer.id }}">{{ customer.id }}</a></td>
 			<td>{{ customer.fname }} {{ customer.lname }}</td>
 			<td>{{ customer.email }}</td>
 		</tr>
