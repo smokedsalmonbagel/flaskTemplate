@@ -2,7 +2,15 @@
 
 {% block content %}
     <h1>New customer</h1>
-		<form action="newcustomer/" method="POST">
+	{% if msg %}
+      <div id="errormsg">
+	  {% for err in msg %}
+		{{ err }}<br>
+	  {% endfor %}
+	  </div>
+    {% endif %}
+		
+		<form action="/newcustomer" method="POST">
 			First Name:<br>
 			<input type="text" name="fname" /><br><br>
 			

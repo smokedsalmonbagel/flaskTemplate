@@ -2,17 +2,33 @@
 
 {% block content %}
     <h1>Customer</h1>
-	<table>
-		<tr>
-			<td>id</td>
-			<td>name</td>
-			<td>email</td>
-		</tr>
-		<tr>
-			<td>{{ customer.id }}</td>
-			<td>{{ customer.fname }} {{ customer.lname }}</td>
-			<td>{{ customer.email }}</td>
-		</tr>
-    
-	</table>
+	<form action="/savecustomer" method="POST">
+		First Name:<br>
+		<input type="text" name="fname" value="{{ customer.fname }}" /><br><br>
+		
+		Last Name:<br>
+		<input type="text" name="lname" value="{{ customer.lname }}" /><br><br>
+		
+		Email:<br>
+		<input type="text" name="email" value="{{ customer.email }}" /><br><br>
+		
+		<input type="hidden" name="id" value="{{ customer.id }}" />
+		
+		Password:<br>
+		<input type="password" name="password" /><br><br>
+		
+		Retype Password:<br>
+		<input type="password" name="password2" /><br><br>
+		
+		Subscribed<br>
+		<select name="subscribed">
+			<option value="True" >Yes</option>
+			<option value="False" >No</option>
+		</select>
+		
+		<br>
+		
+		<input type="submit" value="Save customer"/>
+			
+		</form>
 {% endblock %}

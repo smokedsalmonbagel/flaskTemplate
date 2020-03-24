@@ -10,6 +10,8 @@ class customerList(baseObject):
         
         if len(self.data[n]['fname']) == 0:
             self.errorList.append("First name cannot be blank.")
+        if len(self.data[n]['lname']) == 0:
+            self.errorList.append("Last name cannot be blank.")
         #Add if statements for validation of other fields
   
         if len(self.errorList) > 0:
