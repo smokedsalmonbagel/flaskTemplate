@@ -4,10 +4,12 @@ from flask import request,session, redirect, url_for, escape,send_from_directory
 from customer import customerList
 import pymysql,json,time
 
-
+from flask_session import Session  #serverside sessions
 
 app = Flask(__name__,static_url_path='')
-app.secret_key = b'_5#y2344Q8z\n\xec2342344Q8z\n\xec]/'
+SESSION_TYPE = 'filesystem'
+app.config.from_object(__name__)
+Session(app)
 
 @app.route('/set')
 def set():

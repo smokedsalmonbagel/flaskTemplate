@@ -6,3 +6,8 @@
 * demoed the jinja2 language
 * sessions
 * DB connectivity
+
+
+## Me
+
+![This is me](/docs/me.jpg)
