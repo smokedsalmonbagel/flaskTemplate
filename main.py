@@ -7,6 +7,7 @@ import pymysql,json,time
 from flask_session import Session  #serverside sessions
 
 app = Flask(__name__,static_url_path='')
+
 SESSION_TYPE = 'filesystem'
 app.config.from_object(__name__)
 Session(app)
@@ -19,6 +20,18 @@ def set():
 @app.route('/get')
 def get():
     return str(session['time'])
+ 
+@app.route('/login',methods = ['GET','POST'])
+def login():
+    if request.form.get('email') is not None and request.form.get('password') is not None:
+        c = customerList()
+        if c.tryLogin(request.form.get('email'),request.form.get('password')):
+            print('login ok')
+        else:
+            print('login failed')
+        return ''
+    else:
+        return render_template('login.html', title='Login', msg='Type your email and password to continue.')
 
 @app.route('/nothing')
 def nothing():
