@@ -155,14 +155,17 @@ def main():
     return render_template('main.html', title='Main menu',msg = userinfo)  
 
 def checkSession():
-    timeSinceAct = time.time() - session['active']
-    print(timeSinceAct)
-    if timeSinceAct > 15:
-        session['msg'] = 'Your session has timed out.'
-        return False
+    if 'active' in session.keys():
+        timeSinceAct = time.time() - session['active']
+        print(timeSinceAct)
+        if timeSinceAct > 15:
+            session['msg'] = 'Your session has timed out.'
+            return False
+        else:
+            session['active'] = time.time()
+            return True
     else:
-        session['active'] = time.time()
-        return True
+        return False
     
     
 @app.route('/static/<path:path>')
