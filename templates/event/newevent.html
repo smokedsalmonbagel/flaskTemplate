@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>New event</h1>
+	{% if msg %}
+      <div id="errormsg">
+	  {% for err in msg %}
+		{{ err }}<br>
+	  {% endfor %}
+	  </div>
+    {% endif %}
+		
+		<form action="/newevent" method="POST">
+			Name:<br>
+			<input type="text" name="name"  /><br><br>
+			
+			Start date/time (2020-06-05 22:15:00)<br>
+			<input type="text" name="start"  /><br><br>
+			
+			End date/time (2020-06-05 22:15:00)<br>
+			<input type="text" name="end"/><br><br>
+			
+			
+			<br>
+			
+			<input type="submit" value="Save event"/>
+			
+		</form>
+{% endblock %}

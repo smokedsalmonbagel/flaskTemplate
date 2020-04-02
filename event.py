@@ -8,6 +8,8 @@ class eventList(baseObject):
     def verifyNew(self,n=0):
         self.errorList = []
         
+        if len(self.data[n]['name']) == 0:
+            self.errorList.append("Name cannot be blank.")
         
         #Add if statements for validation of other fields
   
@@ -15,20 +17,7 @@ class eventList(baseObject):
             return False
         else:
             return True
-    def getUpcoming(self):    
-        #SELECT * FROM `conlontj_events` WHERE EventStartDate > NOW() AND EventStartDate < NOW() + 5days
-        sql = 'SELECT * FROM `conlontj_events` WHERE EventStartDate > NOW() AND EventStartDate < NOW() + 5days;'
-        self.connect()
-        cur = self.conn.cursor(pymysql.cursors.DictCursor)
-        #print(sql)
-        #print(tokens)
-        cur.execute(sql,tokens)
-        self.data = []
-        n=0
-        for row in cur:
-            self.data.append(row)
-            n+=1
-
+    
     
     
     

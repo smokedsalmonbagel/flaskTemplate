@@ -2,7 +2,7 @@ from flask import Flask
 from flask import render_template
 from flask import request,session, redirect, url_for, escape,send_from_directory,make_response 
 from customer import customerList
-#from event import eventList
+from event import eventList
 import pymysql,json,time
 
 from flask_session import Session  #serverside sessions
@@ -40,7 +40,7 @@ def login():
             return redirect('main')
         else:
             print('login failed')
-        return ''
+            return render_template('login.html', title='Login', msg='Incorrect login.')
     else:
         if 'msg' not in session.keys() or session['msg'] is None:
             m = 'Type your email and password to continue.'
@@ -48,7 +48,11 @@ def login():
             m = session['msg']
             session['msg'] = None
         return render_template('login.html', title='Login', msg=m)
-
+@app.route('/logout',methods = ['GET','POST'])
+def logout():
+    del session['user'] 
+    del session['active'] 
+    return render_template('login.html', title='Login', msg='Logged out.')
 @app.route('/nothing')
 def nothing():
     print('hi')
@@ -146,6 +150,80 @@ def savecustomer():
     #return ''
     return render_template('savedcustomer.html', title='Customer Saved',  customer=c.data[0])
 
+'''
+================================================================
+START EVENT PAGES:
+=================================================================
+'''
+
+@app.route('/events')
+def events():
+    if checkSession() == False: 
+        return redirect('login')
+    e = eventList()
+    e.getAll()
+    
+    #print(e.data)
+    #return ''
+    return render_template('event/events.html', title='Event List',  events=e.data)
+    
+@app.route('/event')
+def event():
+    if checkSession() == False: 
+        return redirect('login')
+    e = eventList()
+    if request.args.get(e.pk) is None:
+        return render_template('error.html', msg='No event id given.')  
+
+    e.getById(request.args.get(e.pk))
+    if len(e.data) <= 0:
+        return render_template('error.html', msg='Event not found.')  
+    
+    print(e.data)
+    return render_template('event/event.html', title='Event ',  event=e.data[0])  
+@app.route('/newevent',methods = ['GET', 'POST'])
+def newevent():
+    if checkSession() == False: 
+        return redirect('login')
+    if request.form.get('name') is None:
+        e = eventList()
+        e.set('name','')
+        e.set('start','')
+        e.set('end','')
+        e.add()
+        return render_template('event/newevent.html', title='New Event',  event=e.data[0]) 
+    else:
+        e = eventList()
+        e.set('name',request.form.get('name'))
+        e.set('start',request.form.get('start'))
+        e.set('end',request.form.get('end'))
+        e.add()
+        if e.verifyNew():
+            e.insert()
+            print(e.data)
+            return render_template('event/savedevent.html', title='Event Saved',  event=e.data[0])
+        else:
+            return render_template('event/newevent.html', title='Event Not Saved',  event=e.data[0],msg=e.errorList)
+@app.route('/saveevent',methods = ['GET', 'POST'])
+def saveevent():
+    if checkSession() == False: 
+        return redirect('login')
+    e = eventList()
+    e.set('eid',request.form.get('eid'))
+    e.set('name',request.form.get('name'))
+    e.set('start',request.form.get('start'))
+    e.set('end',request.form.get('end'))
+    e.add()
+    e.update()
+    #print(e.data)
+    #return ''
+    return render_template('event/savedevent.html', title='Event Saved',  event=e.data[0])
+
+'''
+================================================================
+END EVENT PAGES
+=================================================================
+'''
     
 @app.route('/main')
 def main():
@@ -158,7 +236,7 @@ def checkSession():
     if 'active' in session.keys():
         timeSinceAct = time.time() - session['active']
         print(timeSinceAct)
-        if timeSinceAct > 15:
+        if timeSinceAct > 500:
             session['msg'] = 'Your session has timed out.'
             return False
         else:

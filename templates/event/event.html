@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Event</h1>
+	<form action="/saveevent" method="POST">
+		Name:<br>
+		<input type="text" name="name" value="{{ event.name }}" /><br><br>
+		
+		Start date/time (2020-06-05 22:15:00)<br>
+		<input type="text" name="start" value="{{ event.start }}" /><br><br>
+		
+		End date/time (2020-06-05 22:15:00)<br>
+		<input type="text" name="end" value="{{ event.end }}" /><br><br>
+		
+		<input type="hidden" name="eid" value="{{ event.eid }}" />
+		
+
+		<br>
+		
+		<input type="submit" value="Save event"/>
+			
+		</form>
+{% endblock %}
