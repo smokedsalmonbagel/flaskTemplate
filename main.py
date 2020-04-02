@@ -33,14 +33,14 @@ def login():
     if request.form.get('email') is not None and request.form.get('password') is not None:
         c = customerList()
         if c.tryLogin(request.form.get('email'),request.form.get('password')):
-            print('login ok')
+            #print('login ok')
             session['user'] = c.data[0]
             session['active'] = time.time()
             
             return redirect('main')
         else:
-            print('login failed')
-        return ''
+            #print('login failed')
+            return render_template('login.html', title='Login', msg='Incorrect username or password.')
     else:
         if 'msg' not in session.keys() or session['msg'] is None:
             m = 'Type your email and password to continue.'
@@ -48,6 +48,12 @@ def login():
             m = session['msg']
             session['msg'] = None
         return render_template('login.html', title='Login', msg=m)
+        
+@app.route('/logout',methods = ['GET','POST'])
+def logout():
+    del session['user']
+    del session['active']
+    return render_template('login.html', title='Login', msg='You have logged out.')
 
 @app.route('/nothing')
 def nothing():
@@ -158,7 +164,7 @@ def checkSession():
     if 'active' in session.keys():
         timeSinceAct = time.time() - session['active']
         print(timeSinceAct)
-        if timeSinceAct > 15:
+        if timeSinceAct > 500:
             session['msg'] = 'Your session has timed out.'
             return False
         else:
