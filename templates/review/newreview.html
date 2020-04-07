@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>New review of event</h1>
+	{% if msg %}
+      <div id="errormsg">
+	  {% for err in msg %}
+		{{ err }}<br>
+	  {% endfor %}
+	  </div>
+    {% endif %}
+		
+		<form action="/newreview" method="POST">
+			
+			<select name="event_id">
+				{% for event in el %}
+					<option value="{{ event.eid }}">{{ event.name }} ({{ event.start }})</option>
+				{% endfor %}
+			</select>
+			<br><br>
+			Review (Write your review below)<br>
+			<textarea name="review"></textarea><br><br>
+
+			<br>
+			
+			<input type="submit" value="Save review"/>
+			
+		</form>
+{% endblock %}

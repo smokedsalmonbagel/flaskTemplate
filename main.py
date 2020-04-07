@@ -3,6 +3,7 @@ from flask import render_template
 from flask import request,session, redirect, url_for, escape,send_from_directory,make_response 
 from customer import customerList
 from event import eventList
+from review import reviewList
 import pymysql,json,time
 
 from flask_session import Session  #serverside sessions
@@ -224,7 +225,57 @@ def saveevent():
 END EVENT PAGES
 =================================================================
 '''
-    
+'''
+================================================================
+START REVIEW PAGES:
+=================================================================
+'''
+
+@app.route('/newreview',methods = ['GET', 'POST'])
+def newreview():
+    if checkSession() == False: 
+        return redirect('login')
+    allEvents = eventList()
+    allEvents.getAll()
+    if request.form.get('review') is None:
+        r = reviewList()
+        r.set('event_id','')
+        r.set('customer_id','')
+        r.set('review','')
+        r.add()
+        return render_template('review/newreview.html', title='New Review',  review=r.data[0],el=allEvents.data) 
+    else:
+        r = reviewList()
+        r.set('event_id',request.form.get('event_id'))
+        r.set('customer_id',session['user']['id'])
+        r.set('review',request.form.get('review'))
+        r.add()
+        if r.verifyNew():
+            r.insert()
+            print(r.data)
+            return render_template('review/savedreview.html', title='Review Saved',  review=r.data[0])
+        else:
+            return render_template('review/newreview.html', title='Review Not Saved',  review=r.data[0],msg=r.errorList,el=allEvents.data)
+@app.route('/savereview',methods = ['GET', 'POST'])
+def savereview():
+    if checkSession() == False: 
+        return redirect('login')
+    r = reviewList()
+    r.set('aid',request.form.get('aid'))
+    r.set('event_id',request.form.get('event_id'))
+    r.set('customer_id',request.form.get('customer_id'))
+    r.set('review',request.form.get('review'))
+    r.add()
+    r.update()
+    #print(e.data)
+    #return ''
+    return render_template('review/savedreview.html', title='Review Saved',  review=r.data[0])
+
+'''
+================================================================
+END REVIEW PAGES
+=================================================================
+'''   
 @app.route('/main')
 def main():
     if checkSession() == False: 
