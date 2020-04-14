@@ -1,4 +1,4 @@
-import pymysql
+import pymysql,json
 
 class baseObject:
     
@@ -56,6 +56,7 @@ class baseObject:
         cur = self.conn.cursor(pymysql.cursors.DictCursor)
         #print(sql)
         #print(tokens)
+        self.log(sql,tokens)
         cur.execute(sql,tokens)
         self.data[n][self.pk] = cur.lastrowid
     def delete(self,n=0):
@@ -69,6 +70,7 @@ class baseObject:
         cur = self.conn.cursor(pymysql.cursors.DictCursor)
         #print(sql)
         #print(tokens)
+        self.log(sql,tokens)
         cur.execute(sql,tokens)
     
         
@@ -77,8 +79,10 @@ class baseObject:
         tokens = (id)
         self.connect()
         cur = self.conn.cursor(pymysql.cursors.DictCursor)
+        
         #print(sql)
         #print(tokens)
+        self.log(sql,tokens)
         cur.execute(sql,tokens)
         self.data = []
         for row in cur:
@@ -91,6 +95,7 @@ class baseObject:
         cur = self.conn.cursor(pymysql.cursors.DictCursor)
         #print(sql)
         #print(tokens)
+        self.log(sql)
         cur.execute(sql)
         self.data = []
         for row in cur:
@@ -111,6 +116,7 @@ class baseObject:
         cur = self.conn.cursor(pymysql.cursors.DictCursor)
         #print(sql)
         #print(tokens)
+        self.log(sql,tokens)
         cur.execute(sql,tokens)
     
     def getByField(self,field,value):
@@ -120,6 +126,7 @@ class baseObject:
         cur = self.conn.cursor(pymysql.cursors.DictCursor)
         #print(sql)
         #print(tokens)
+        self.log(sql,tokens)
         cur.execute(sql,tokens)
         self.data = []
         for row in cur:
@@ -135,3 +142,10 @@ class baseObject:
         self.data = []
         for row in cur:
             self.data.append(row)
+    def log(self,sql,tokens=[]):
+        f = open('logs/sql_log.txt','a')
+        import datetime
+        now = datetime.datetime.now()
+        debug_str = str(now) +' - ' +sql + json.dumps(tokens) + '\n'
+        f.write(debug_str)
+        f.close()
