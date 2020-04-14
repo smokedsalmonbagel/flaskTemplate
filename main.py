@@ -22,6 +22,8 @@ def set():
 @app.route('/get')
 def get():
     return str(session['time'])
+    
+
  
 @app.route('/login',methods = ['GET','POST'])
 def login():
@@ -31,6 +33,7 @@ def login():
     -redirect to menu
     -check session on login pages
     '''
+    print('-------------------------')
     if request.form.get('email') is not None and request.form.get('password') is not None:
         c = customerList()
         if c.tryLogin(request.form.get('email'),request.form.get('password')):
@@ -69,7 +72,8 @@ def basichttp():
 
 @app.route('/')
 def home():
-    return render_template('test.html', title='Test2', msg='Welcome!')
+    return redirect('login')
+    #return render_template('test.html', title='Test2', msg='Welcome!')
 
 @app.route('/index')
 def index():
@@ -147,7 +151,7 @@ def savecustomer():
     c.set('subscribed',request.form.get('subscribed'))
     c.add()
     c.update()
-    print(c.data)
+    #print(c.data)
     #return ''
     return render_template('savedcustomer.html', title='Customer Saved',  customer=c.data[0])
 
@@ -271,11 +275,21 @@ def savereview():
     #return ''
     return render_template('review/savedreview.html', title='Review Saved',  review=r.data[0])
 
+@app.route('/myreviews')
+def myreviews():
+    if checkSession() == False: 
+        return redirect('login')
+    r = reviewList()
+    r.getByCustomer(session['user']['id'])
+    #print(r.data)
+    #return ''
+    return render_template('myreviews.html', title='My Reviews',  reviews=r.data)
+   
 '''
 ================================================================
 END REVIEW PAGES
 =================================================================
-'''   
+'''
 @app.route('/main')
 def main():
     if checkSession() == False: 
@@ -301,10 +315,10 @@ def checkSession():
 def send_static(path):
     return send_from_directory('static', path)
 
+
 if __name__ == '__main__':
    app.secret_key = '1234'
-   app.run(host='127.0.0.1',debug=True)
-   
+   app.run(host='127.0.0.1',debug=True)   
    
    
    

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>My Reviews</h1>
+		<a href="newreview">Add new review</a>
+		<table>
+		<tr>
+			<td>id</td>
+			<td>review</td>
+			<td>event</td>
+			<td>datetime</td>
+		</tr>
+    {% for review in reviews %}
+		<tr>
+			<td>{{ review.aid }}</a></td>
+			<td>{{ review.review }}</td>
+			<td>{{ review.name }}</td>
+			<td>{{ review.start }}</td>
+		</tr>
+    {% endfor %}
+	</table>
+{% endblock %}

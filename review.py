@@ -17,3 +17,22 @@ class reviewList(baseObject):
             return False
         else:
             return True
+    def getByCustomer(self,id):
+        '''
+        SELECT * FROM `conlontj_attends` 
+        LEFT JOIN `conlontj_events` ON `conlontj_events`.`eid` = `conlontj_attends`.`event_id`
+        WHERE  `conlontj_attends`.`customer_id` = 3
+        
+        '''
+        sql = '''SELECT * FROM `conlontj_attends` 
+        LEFT JOIN `conlontj_events` ON `conlontj_events`.`eid` = `conlontj_attends`.`event_id`
+        WHERE  `conlontj_attends`.`customer_id` = %s'''
+        tokens = (id)
+        self.connect()
+        cur = self.conn.cursor(pymysql.cursors.DictCursor)
+        #print(sql)
+        #print(tokens)
+        cur.execute(sql,tokens)
+        self.data = []
+        for row in cur:
+            self.data.append(row)
