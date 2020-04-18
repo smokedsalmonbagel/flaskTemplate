@@ -8,12 +8,40 @@ class customerList(baseObject):
     def verifyNew(self,n=0):
         self.errorList = []
         
+        c = customerList()
+        c.getByField('email',self.data[n]['email'])
+        if len(c.data) > 0:
+            self.errorList.append("Email address is already registered.")
+        
+        
         if len(self.data[n]['fname']) == 0:
             self.errorList.append("First name cannot be blank.")
         if len(self.data[n]['lname']) == 0:
             self.errorList.append("Last name cannot be blank.")
         #Add if statements for validation of other fields
   
+        if len(self.errorList) > 0:
+            return False
+        else:
+            return True
+    def verifyChange(self,n=0):
+        self.errorList = []
+        
+        c = customerList()
+        c.getByField('email',self.data[n]['email'])
+        #print(c.data)
+        if len(c.data) > 0:
+            print(self.data[n])
+            print(c.data[0])
+            if str(self.data[n]['id']) != str(c.data[0]['id']):
+                self.errorList.append("Email address is already registered.")
+        
+        
+        if len(self.data[n]['fname']) == 0:
+            self.errorList.append("First name cannot be blank.")
+        if len(self.data[n]['lname']) == 0:
+            self.errorList.append("Last name cannot be blank.")
+        
         if len(self.errorList) > 0:
             return False
         else:

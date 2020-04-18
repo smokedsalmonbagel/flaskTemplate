@@ -2,6 +2,14 @@
 
 {% block content %}
     <h1>Event</h1>
+	{% if msg %}
+      <div id="errormsg">
+	  {% for err in msg %}
+		{{ err }}<br>
+	  {% endfor %}
+	  </div>
+	  {% endif %}
+	  
 	<form action="/saveevent" method="POST">
 		Name:<br>
 		<input type="text" name="name" value="{{ event.name }}" /><br><br>

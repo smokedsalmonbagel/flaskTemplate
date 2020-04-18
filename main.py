@@ -23,7 +23,27 @@ def set():
 def get():
     return str(session['time'])
     
+@app.route('/select')
+def select():
+    return render_template('select.html', title='Select Test')
 
+@app.route('/selectData')
+def selectData():    
+    return '''{
+          "results": [
+            {
+              "id": 1,
+              "text": "Option 1"
+            },
+            {
+              "id": 2,
+              "text": "Option 2"
+            }
+          ],
+          "pagination": {
+            "more": true
+          }
+        }'''
  
 @app.route('/login',methods = ['GET','POST'])
 def login():
@@ -150,11 +170,13 @@ def savecustomer():
     c.set('password',request.form.get('password'))
     c.set('subscribed',request.form.get('subscribed'))
     c.add()
-    c.update()
-    #print(c.data)
-    #return ''
-    return render_template('savedcustomer.html', title='Customer Saved',  customer=c.data[0])
-
+    if c.verifyChange():
+        c.update()
+        #print(c.data)
+        #return ''
+        return render_template('savedcustomer.html', title='Customer Saved',  customer=c.data[0])
+    else:
+        return render_template('customer.html', title='Customer Not Saved',  customer=c.data[0],msg=c.errorList)
 '''
 ================================================================
 START EVENT PAGES:
@@ -219,11 +241,13 @@ def saveevent():
     e.set('start',request.form.get('start'))
     e.set('end',request.form.get('end'))
     e.add()
-    e.update()
-    #print(e.data)
-    #return ''
-    return render_template('event/savedevent.html', title='Event Saved',  event=e.data[0])
-
+    if e.verifyChange():
+        e.update()
+        #print(e.data)
+        #return ''
+        return render_template('event/savedevent.html', title='Event Saved',  event=e.data[0])
+    else:
+        return render_template('event/event.html', title='Event Not Saved',  event=e.data[0],msg=e.errorList)
 '''
 ================================================================
 END EVENT PAGES

@@ -5,7 +5,31 @@
       {% else %}
       <title>Welcome to my example</title>
       {% endif %}
+	  
 	  <link rel="stylesheet" type="text/css" href="static/style.css">
+	  
+	  <!--
+	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	  <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+	  <script>
+	  $( document ).ready(function() {
+			$('.js-data-example-ajax').select2({
+		  ajax: {
+			url: 'selectData',
+			dataType: 'json',
+			processResults: function (data) {
+      // Transforms the top-level key of the response object from 'items' to 'results'
+      return {
+        results: data.results
+      };
+    }
+		  }
+		});
+		
+		});
+		-->
+	  </script>
     </head>
     <body>
         <div>Goto: <a href="/main">Main menu</a> <a href="/logout">Logout</a></div>

@@ -2,6 +2,7 @@ import pymysql
 from baseObject import baseObject
 from customer import customerList
 from event import eventList
+from datetime import datetime
 class reviewList(baseObject):
     #this is the assignment
     def __init__(self):
@@ -18,7 +19,13 @@ class reviewList(baseObject):
         c = customerList()
         c.getById(customer_id )
         customer_name = c.data[0]['fname']
-        prefix_text = customer_name + '\'s review of "' + event_name + '": '
+        
+        now = datetime.now()
+        #dts = now.strftime("%d/%m/%Y %H:%M:%S")
+        
+        prefix_text = customer_name + '\'s review of "' + event_name + '".  Reviwed on ' + str(now) + ' '
+        
+        #self.data[n]['review_date'] = str(now)
         
         if len(self.data[n]['review']) == 0:
             self.errorList.append("Review body cannot be blank.")
