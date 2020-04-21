@@ -34,9 +34,15 @@
 			<option value="False" >No</option>
 		</select>
 		
-		<br>
+		<br><br>
 		
 		<input type="submit" value="Save customer"/>
 			
+		</form>
+		<br><br>
+		
+		<form action="/deletecustomer" method="POST">
+			<input type="submit" value="Delete this customer" />
+			<input type="hidden" name="id" value="{{ customer.id }}" />
 		</form>
 {% endblock %}

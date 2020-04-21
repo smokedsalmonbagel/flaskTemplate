@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Ok</h1>
+	<div class="msgText">
+	{% if msg %}
+     {{ msg }}
+      {% else %}
+     Operation complete.
+      {% endif %}
+	</div>
+	<a href="/main">Go Back to menu</a>
+{% endblock %}

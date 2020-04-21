@@ -177,6 +177,24 @@ def savecustomer():
         return render_template('savedcustomer.html', title='Customer Saved',  customer=c.data[0])
     else:
         return render_template('customer.html', title='Customer Not Saved',  customer=c.data[0],msg=c.errorList)
+@app.route('/deletecustomer',methods = ['GET', 'POST'])
+def deletecustomer():
+    if checkSession() == False: 
+        return redirect('login')
+    print("cid:",request.form.get('id')) 
+    #return ''
+    c = customerList()
+    c.deleteById(request.form.get('id'))
+    return render_template('confirmaction.html', title='Customer Deleted',  msg='Customer deleted.')
+    '''
+    <form action="/deletecustomer" method="POST">
+			<input type="submit" value="Delete this customer" />
+			<input type="hidden" name="id" value="{{ customer.id }}" />
+		</form>
+    '''
+    
+    
+    
 '''
 ================================================================
 START EVENT PAGES:
