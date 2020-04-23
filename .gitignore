@@ -1,3 +1,4 @@
 config.py
 flask_session/*
 logs/*
+__pycache__
