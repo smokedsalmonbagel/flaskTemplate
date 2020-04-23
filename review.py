@@ -22,6 +22,7 @@ class reviewList(baseObject):
         
         now = datetime.now()
         #dts = now.strftime("%d/%m/%Y %H:%M:%S")
+        #self.data[n]['time_submitted'] = str(now)
         
         prefix_text = customer_name + '\'s review of "' + event_name + '".  Reviwed on ' + str(now) + ' '
         
