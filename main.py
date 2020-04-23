@@ -29,7 +29,20 @@ def select():
 
 @app.route('/selectData')
 def selectData():    
-    return '''{
+    c = customerList()
+    if request.args.get('term') is not None:
+        c.getLikeField('email',request.args.get('term'))
+    data = {'results':[],'pagination':{"more": 'true'}}
+    
+    
+    for row in c.data:
+        res = {}
+        res['id'] = row['id']
+        res['text'] = str(row['email']) + ' ' +   str(row['lname'])
+        data['results'].append(res)
+    
+    return json.dumps(data)
+    '''{
           "results": [
             {
               "id": 1,

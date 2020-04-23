@@ -124,8 +124,8 @@ class baseObject:
         tokens = (value)
         self.connect()
         cur = self.conn.cursor(pymysql.cursors.DictCursor)
-        #print(sql)
-        #print(tokens)
+        print(sql)
+        print(tokens)
         self.log(sql,tokens)
         cur.execute(sql,tokens)
         self.data = []
