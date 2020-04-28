@@ -32,7 +32,7 @@ def selectData():
     c = customerList()
     if request.args.get('term') is not None:
         c.getLikeField('email',request.args.get('term'))
-    data = {'results':[],'pagination':{"more": 'true'}}
+    data = {'results':[],'pagination':{"more": 'false'}}
     
     
     for row in c.data:
@@ -42,6 +42,7 @@ def selectData():
         data['results'].append(res)
     
     return json.dumps(data)
+    #required schema for select2 AJAX dropdown:
     '''{
           "results": [
             {
