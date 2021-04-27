@@ -13,6 +13,12 @@ Customer | c@a.com | 12345
 
 ### Extending the flaskTemplate
 In this branch of the flaskTemple project I extend the template to build a 3 table application.  During the process I will demonstrate many of the tasks you will need to complete to finish your project.
+
+### MySQL
+- userfavorite loactions
+```
+SELECT * ..... JOIN....
+```
  
 ### Changes / additions for this branch
 * Demonstrate how to add tables / class defs
